@@ -7,6 +7,8 @@ import com.caltong.ddns.dns.DnsProvider;
 import com.caltong.ddns.dns.DnsProviderEnum;
 import com.caltong.ddns.ip.IpChecker;
 import com.caltong.ddns.ip.NetCnIpChecker;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,6 +17,8 @@ import java.util.concurrent.ScheduledExecutorService;
 
 @Configuration
 public class DdnsConfig {
+
+    private final Logger log = LoggerFactory.getLogger(DdnsConfig.class);
 
     private DdnsProperties ddnsProperties;
 
@@ -28,6 +32,7 @@ public class DdnsConfig {
     @Bean
     public DnsProvider createDnsProvider() {
         if (ddnsProperties.getDnsProvider() == DnsProviderEnum.CLOUDFLARE) {
+            log.info("Create cloudflare dns, target domain: {}", ddnsProperties.getDomain());
             return new CloudflareDns(
                     ddnsProperties.getDomain(),
                     cloudflareProperties.getToken(),
@@ -35,6 +40,7 @@ public class DdnsConfig {
             );
         } else {
             //set default to cloudflare dns
+            log.warn("Create cloudflare dns by default, target domain: {}", ddnsProperties.getDomain());
             return new CloudflareDns(
                     ddnsProperties.getDomain(),
                     cloudflareProperties.getToken(),
