@@ -59,7 +59,7 @@ public class CloudflareDns extends BaseDnsProvider {
         }
         String currentIp = null;
         if (response.statusCode() == 200) {
-            log.info("Result from Dns provider: {}", jsonNode.asText());
+            log.info("Result from Dns provider: {}", response.body());
             JsonNode result = jsonNode.get("result").get(0);
             if (result != null) {
                 currentIp = result.get("content").asText();
