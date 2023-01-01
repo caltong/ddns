@@ -61,12 +61,16 @@ public class CloudflareDns extends BaseDnsProvider {
         if (response.statusCode() == 200) {
             log.info("Result from Dns provider: {}", jsonNode.asText());
             JsonNode result = jsonNode.get("result").get(0);
-            currentIp = result.get("content").asText();
-            String id = result.get("id").asText();
+            if (result != null) {
+                currentIp = result.get("content").asText();
+                String id = result.get("id").asText();
 
-            this.id = id;
-            this.ip = currentIp;
-            log.info("Current ip from dns provider: {}, id: {}", currentIp, id);
+                this.id = id;
+                this.ip = currentIp;
+                log.info("Current ip from dns provider: {}, id: {}", currentIp, id);
+            }else {
+                log.error("Result from Dns provider is null, please check if domain is right.");
+            }
         } else {
             log.error("Get current ip from dns provider fail: {}", response.statusCode());
         }
