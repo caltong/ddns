@@ -32,7 +32,7 @@ public class CloudflareDns extends BaseDnsProvider {
         super(domain, "default ip");
         this.apiToken = apiToken;
         this.zoneId = zoneId;
-        this.getIpApi = baseUrl + zoneId + "/dns_records?type=A&name=" + this.domain;
+        this.getIpApi = baseUrl + zoneId + "/dns_records?name=" + this.domain;
         getIp();
         this.setIpApi = baseUrl + zoneId + "/dns_records/" + id;
     }
@@ -59,6 +59,7 @@ public class CloudflareDns extends BaseDnsProvider {
         }
         String currentIp = null;
         if (response.statusCode() == 200) {
+            log.info("Result from Dns provider: {}", jsonNode.asText());
             JsonNode result = jsonNode.get("result").get(0);
             currentIp = result.get("content").asText();
             String id = result.get("id").asText();
