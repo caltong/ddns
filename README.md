@@ -33,7 +33,7 @@ docker run -v PATH_TO_PROPERTIES_FILE:/opt/app.properties caltong/ddns
 
 ### Run app.jar directly
 
-Try to clone this repo and test/build an app.jar
+Download application jar file from GitHub releases page.
 
 Run this command to start this app
 
